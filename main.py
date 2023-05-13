@@ -49,16 +49,28 @@ def move_rod(rod_number, pos_x):
             pyautogui.press("t")
             # Выходим из функции
             return
-
         # Если мы перезабрасывали удочку
         else:
             # Выходим из функции
             return
 
 
+# Функция автоматической еды
+def eat():
+    if pyautogui.pixel(474, 780) == (215, 220, 198):
+        pyautogui.click(x=627, y=834)
+        time.sleep(1)
+        pyautogui.doubleClick(x=784, y=575)
+        time.sleep(0.25)
+        pyautogui.press("space")
+        return
+
+
 # Бесконечный цикл для работы скрипта
 while True:
+    # Функция для еды
+    eat()
     # Функция для удочки
-    move_rod(1, 951)
-    move_rod(2, 997)
-    move_rod(3, 1009)
+   # move_rod(1, 951)
+    #move_rod(2, 997)
+   # move_rod(3, 1009)
