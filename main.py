@@ -32,6 +32,20 @@ def move_rod(rod_number, pos_x):
                     pyautogui.press("t")
                     # Завершаем функцию
                     return
+                # Если сорвалась
+                if pyautogui.pixel(pos_x, 433) == (0, 0, 0):
+                    time.sleep(0.8)
+                    # Перепроверяем
+                    if pyautogui.pixel(pos_x, 433) == (0, 0, 0):
+                        # Отжимаем все кнопки
+                        pyautogui.keyUp("g")
+                        pyautogui.keyUp("h")
+                        # Сбрасываем рыбу
+                        pyautogui.press("space")
+                        # Перезакидываем удочку
+                        pyautogui.press("t")
+                        # Завершаем функцию
+                        return
             # Если появился экран, что мы вытащили рыбу
             # Пробуем сделать наживку
             with pyautogui.hold('shift'):
@@ -41,7 +55,7 @@ def move_rod(rod_number, pos_x):
             # Закрываем окно
             pyautogui.press("space")
             # На всякий случай ставим еще один таймаут
-            time.sleep(0.05)
+            time.sleep(0.1)
             # Проверяем нет ли окна, что нельзя сделать наживку
             if pyautogui.pixel(969, 541) == (244, 243, 223):
                 pyautogui.press("space")
@@ -57,20 +71,37 @@ def move_rod(rod_number, pos_x):
 
 # Функция автоматической еды
 def eat():
-    if pyautogui.pixel(474, 780) == (215, 220, 198):
-        pyautogui.click(x=627, y=834)
-        time.sleep(1)
-        pyautogui.doubleClick(x=784, y=575)
-        time.sleep(0.25)
-        pyautogui.press("space")
-        return
+    pyautogui.click(x=627, y=834)
+    time.sleep(1)
+    pyautogui.doubleClick(x=784, y=575)
+    time.sleep(0.25)
+    pyautogui.press("space")
+    time.sleep(0.25)
+    return
+
+
+def rethrow(rod_number):
+    time.sleep(0.5)
+    pyautogui.press(f"{rod_number}")
+    time.sleep(0.3)
+    pyautogui.press("space")
+    time.sleep(1.5)
+    pyautogui.press("t")
+    return
 
 
 # Бесконечный цикл для работы скрипта
 while True:
-    # Функция для еды
-    eat()
-    # Функция для удочки
-   # move_rod(1, 951)
-    #move_rod(2, 997)
-   # move_rod(3, 1009)
+    # Еда и перезаброс
+    if pyautogui.pixel(474, 780) == (215, 220, 198):
+        # Едим
+        eat()
+        # Перезабрасываем все 3 удочки
+        rethrow(1)
+        rethrow(2)
+        rethrow(3)
+    else:
+        # Функция для удочки
+        move_rod(1, 761)
+        move_rod(2, 772)
+        move_rod(3, 781)
