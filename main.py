@@ -3,8 +3,14 @@ import pyautogui
 import time
 
 
+# Переменная counter для перезаброса
+counter = 0
+
+
 # Функция для вылова рыбы
 def move_rod(rod_number, pos_x):
+    # Объявление глобальной переменной
+    global counter
     # Если клюнуло
     if not pyautogui.pixel(pos_x, 433) == (0, 0, 0):
         # Запускаем таймаут, чтобы проверить, действительно клюнуло
@@ -47,6 +53,7 @@ def move_rod(rod_number, pos_x):
                         # Завершаем функцию
                         return
             # Если появился экран, что мы вытащили рыбу
+            counter += 1
             # Пробуем сделать наживку
             with pyautogui.hold('shift'):
                 pyautogui.press("b")
@@ -69,11 +76,11 @@ def move_rod(rod_number, pos_x):
             return
 
 
-# Функция автоматической еды
+# Функция автоматической еды (Последний предмет в котелке с едой)
 def eat():
     pyautogui.click(x=627, y=834)
     time.sleep(1)
-    pyautogui.doubleClick(x=784, y=575)
+    pyautogui.doubleClick(x=767, y=597)
     time.sleep(0.25)
     pyautogui.press("space")
     time.sleep(0.25)
@@ -92,16 +99,17 @@ def rethrow(rod_number):
 
 # Бесконечный цикл для работы скрипта
 while True:
-    # Еда и перезаброс
+    # Еда
     if pyautogui.pixel(474, 780) == (215, 220, 198):
         # Едим
         eat()
-        # Перезабрасываем все 3 удочки
+    if counter == 15:
         rethrow(1)
         rethrow(2)
         rethrow(3)
+        counter = 0
     else:
         # Функция для удочки
-        move_rod(1, 761)
-        move_rod(2, 772)
-        move_rod(3, 781)
+        move_rod(1, 881)
+        move_rod(2, 892)
+        move_rod(3, 901)
